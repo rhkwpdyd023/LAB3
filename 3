@@ -1,0 +1,63 @@
+/* typingtest.c */
+
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <errno.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <time.h>
+#define BUFSIZE 512
+
+char text_1[BUFSIZE] = "Hello world!!";
+char text_2[BUFSIZE] = "Middle";
+char text_3[BUFSIZE] = "End bye";
+
+int main(void){
+    time_t start_time, end_time;
+    char a[20];
+    char buffer[BUFSIZE];
+    char buf1[BUFSIZE];
+    char buf2[BUFSIZE];
+    char buf3[BUFSIZE];
+    int errcnt = 0;
+    int fd;
+    int sum = 0;
+    double total = 0;
+
+    printf("typing test start\n");
+    gets(a);
+    start_time = time(NULL);
+
+    fprintf(stderr, "%s\n", text_1);
+    gets(buf1);
+
+    fprintf(stderr, "%s\n", text_2);
+    gets(buf2);
+
+    fprintf(stderr, "%s\n", text_3);
+    gets(buf3);
+    end_time = time(NULL);
+
+    total = difftime(end_time, start_time);
+    sum = strlen(buf1) + strlen(buf2) + strlen(buf3);
+    sum /= total/60;
+
+    for(int i = 0; i < strlen(text_1); i++) 
+    if(buf1[i] != text_1[i]) errcnt++;
+    
+    for(int i = 0; i < strlen(text_2); i++)
+    if(buf2[i] != text_2[i]) errcnt++;
+
+    for(int i = 0; i < strlen(text_3); i++)
+    if(buf3[i] != text_3[i]) errcnt++;
+
+    printf("error typing count : %d\n", errcnt);
+    printf("a minute average typing : %ld\n", sum);
+    printf("overall time : %f\n", total);
+
+    exit(0);
+
+    return 0;
+}
